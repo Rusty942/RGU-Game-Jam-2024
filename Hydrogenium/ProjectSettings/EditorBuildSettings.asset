@@ -12,7 +12,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Initial Cutscene.unity
     guid: 6369cc2129b390644a8d4a1e1491f2a3
   - enabled: 1
-    path: Assets/Scenes/Main City.unity
+    path: Assets/Scenes/Hub.unity
+    guid: 6d8bcfc19ef933944a302ab2df3b2270
+  - enabled: 1
+    path: Assets/Scenes/Level 1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
