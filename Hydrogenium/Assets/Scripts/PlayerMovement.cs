@@ -10,7 +10,10 @@ public class PlayerMovement : MonoBehaviour {
 
 	float horizontalMove = 0f;
 	bool jump = false;
-	bool crouch = false;
+    
+    
+    //Moves logic
+    private bool isShooting = false;
 
     private Animator animator; // Reference to the Animator component
 
@@ -20,18 +23,37 @@ public class PlayerMovement : MonoBehaviour {
         animator = GetComponent<Animator>();
     }
 	
-	// Update is called once per frame
-	void Update () {
-
-		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+	void Update()
+    {
         // Update the walking animation
         UpdateWalkingAnimation(horizontalMove);
 
-        if(Input.GetButtonDown("Jump"))
+        // Check for shooting input
+        if (!isShooting)
         {
-            jump = true;
+            // Handle movement input only if not shooting
+            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+
+            // Check for jump input
+            if (Input.GetButtonDown("Jump"))
+            {
+                jump = true;
+            }
         }
-	}
+
+        // Handle shooting input
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            isShooting = true;
+            animator.SetBool("Shooting", true);
+            horizontalMove = 0f; // Stop horizontal movement while shooting
+        }
+        else if (Input.GetKeyUp(KeyCode.E))
+        {
+            isShooting = false;
+            animator.SetBool("Shooting", false);
+        }
+}
 
 	void FixedUpdate ()
 	{

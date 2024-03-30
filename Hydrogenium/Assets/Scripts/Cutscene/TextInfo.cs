@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class SequentialTextMeshProFade : MonoBehaviour
+public class TextInfo : MonoBehaviour
 {
     public TextMeshProUGUI textMeshPro1;
     public TextMeshProUGUI textMeshPro2;
