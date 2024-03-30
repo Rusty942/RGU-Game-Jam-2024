@@ -20,7 +20,7 @@ public class CityParallax : MonoBehaviour
         //Get initial values for the background
         float temp = (cam.transform.position.x * (1 - parallaxEffect));
         float distance = (cam.transform.position.x* parallaxEffect);
-        transform.position = new Vector3(startPos + distance, transform.position.y, transform.position.z);
+        transform.position = new Vector3(startPos + distance, transform.position.z);
 
         //Allows the background to infinite scroll
         if(temp > startPos + length){
