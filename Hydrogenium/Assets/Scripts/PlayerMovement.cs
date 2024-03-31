@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour {
     // Moves logic
     private bool isShooting = false;
     bool isFillingWater = false;
+    
+    public bool inRange = false;
 
     private Animator animator; // Reference to the Animator component
 
@@ -64,13 +66,16 @@ public class PlayerMovement : MonoBehaviour {
         {
             if(canUseWater == true) 
             {
-                isShooting = true;
-                animator.SetBool("ShootingWater", true);
-                horizontalMove = 0f; // Stop horizontal movement while shooting
-                Debug.Log("shooting water");
-                waterFill.FillUp();
-                isFillingWater = true;
-                waterSpurt.Play(); 
+                if(inRange == true)
+                {
+                    isShooting = true;
+                    animator.SetBool("ShootingWater", true);
+                    horizontalMove = 0f; // Stop horizontal movement while shooting
+                    Debug.Log("shooting water");
+                    waterFill.FillUp();
+                    isFillingWater = true;
+                    waterSpurt.Play(); 
+                }
             }
             else{
                 isShooting = true;
@@ -126,5 +131,14 @@ public class PlayerMovement : MonoBehaviour {
     {
         canUseWater = true;
         Debug.Log("Water avaialble");
+    }
+
+     public void IsInRange()
+    {
+        inRange = true;
+    }
+    public void OutRange()
+    {
+        inRange = false;
     }
 }
