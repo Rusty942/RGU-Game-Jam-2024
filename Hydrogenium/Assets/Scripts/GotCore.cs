@@ -1,39 +1,55 @@
 using UnityEngine;
 
-public class GotCore: MonoBehaviour
+public class GotCore : MonoBehaviour
 {
-    private PlayerMovement playerMovement; // Reference to the PlayerMovement script
+    private CheckForWin checkForWin; // Reference to the CheckForWin script
     private Vector3 startPosition;
+    public GotCoreMessage gotCoreMessage;
+    public AudioSource collisionAudio; // Reference to the AudioSource component
 
     void Start()
     {
         startPosition = transform.position;
-        playerMovement = FindObjectOfType<PlayerMovement>(); // Search for PlayerMovement in the scene
-        if (playerMovement == null)
+        checkForWin = FindObjectOfType<CheckForWin>(); 
+        if (checkForWin == null)
         {
-            Debug.LogError("PlayerMovement component not found in the scene!");
+            Debug.LogError("CheckForWin component not found in the scene!");
         }
-    }
-
-    void Update()
-    {
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            // Send debug message
-            Debug.Log("Power core Item collided with Player!");
-
-            // Make the oxygen item disappear
-            gameObject.SetActive(false);
-
-            // Call the WaterAvailable method of the PlayerMovement script if it's not null
-            if (playerMovement != null)
+            // Check if the AudioSource component is valid and is not playing
+            if (collisionAudio != null && !collisionAudio.isPlaying)
             {
-                playerMovement.WinAvailable();
+                collisionAudio.Play();
+            }
+
+            // Send debug message
+            Debug.Log("Power core collided with Player!");
+
+            // Make the power core disappear after a delay
+            StartCoroutine(DestroyAfterDelay());
+
+            // Show the "Got Core" message
+            gotCoreMessage.ShowMessage();
+
+            // Call the WinAvailable method of the CheckForWin script if it's not null
+            if (checkForWin != null)
+            {
+                checkForWin.WinAvailable();
             }
         }
+    }
+
+    private System.Collections.IEnumerator DestroyAfterDelay()
+    {
+        // Wait for the audio clip to finish playing before destroying the object
+        yield return new WaitForSeconds(collisionAudio.clip.length);
+        
+        // Destroy the object
+        Destroy(gameObject);
     }
 }

@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public CharacterController2D controller;
     public AudioSource jumpSound; // Reference to the AudioSource component for jump sound
+    public AudioSource waterSpurt;
     private WaterFill waterFill;
 
     public float runSpeed = 40f;
@@ -13,7 +14,6 @@ public class PlayerMovement : MonoBehaviour {
     float horizontalMove = 0f;
     bool jump = false;
     bool canUseWater = false;
-    bool haveCore = false;
 
     // Moves logic
     private bool isShooting = false;
@@ -70,12 +70,13 @@ public class PlayerMovement : MonoBehaviour {
                 Debug.Log("shooting water");
                 waterFill.FillUp();
                 isFillingWater = true;
+                waterSpurt.Play(); 
             }
             else{
                 isShooting = true;
                 animator.SetBool("Shooting", true);
                 horizontalMove = 0f; // Stop horizontal movement while shooting   
-                isFillingWater = false;           
+                isFillingWater = false;          
             }
         }
         else if (Input.GetKeyUp(KeyCode.E))
@@ -83,6 +84,7 @@ public class PlayerMovement : MonoBehaviour {
             isShooting = false;
             animator.SetBool("Shooting", false);
             isFillingWater = false; 
+            waterSpurt.Stop();
         }
 
         if (isFillingWater)
@@ -123,11 +125,5 @@ public class PlayerMovement : MonoBehaviour {
     {
         canUseWater = true;
         Debug.Log("Water avaialble");
-    }
-
-    public void WinAvailable()
-    {
-        haveCore = true;
-        Debug.Log("Grabbed hydrogen core");
     }
 }

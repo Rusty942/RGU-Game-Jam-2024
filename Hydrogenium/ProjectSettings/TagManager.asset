@@ -7,6 +7,7 @@ TagManager:
   - Entry
   - Tutorial
   - Item
+  - Death
   layers:
   - Default
   - TransparentFX

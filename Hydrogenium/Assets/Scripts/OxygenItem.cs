@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class OxygenItem : MonoBehaviour
@@ -6,6 +8,7 @@ public class OxygenItem : MonoBehaviour
     public float bobSpeed = 1f; // Speed of the bobbing motion
     public float bobHeight = 0.5f;
     public OxygenMessage oxygenMessage; // Reference to the OxygenMessage script attached to the TextMeshPro object
+    public AudioSource collisionAudio; // Reference to the AudioSource component for collision sound
 
     private Vector3 startPosition;
 
@@ -30,11 +33,17 @@ public class OxygenItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            // Play collision sound
+            if (collisionAudio != null)
+            {
+                collisionAudio.Play();
+            }
+
             // Send debug message
             Debug.Log("Oxygen Item collided with Player!");
 
-            // Make the oxygen item disappear
-            gameObject.SetActive(false);
+            // Make the oxygen item disappear after a delay
+            StartCoroutine(DestroyAfterDelay());
 
             // Activate the TextMeshPro object
             oxygenMessage.ShowMessage();
@@ -45,5 +54,14 @@ public class OxygenItem : MonoBehaviour
                 playerMovement.WaterAvailable();
             }
         }
+    }
+
+    private System.Collections.IEnumerator DestroyAfterDelay()
+    {
+        // Wait for the audio clip to finish playing before destroying the object
+        yield return new WaitForSeconds(collisionAudio.clip.length);
+
+        // Destroy the object
+        Destroy(gameObject);
     }
 }
