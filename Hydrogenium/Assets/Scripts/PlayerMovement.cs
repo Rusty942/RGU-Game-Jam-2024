@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
     public CharacterController2D controller;
     public AudioSource jumpSound; // Reference to the AudioSource component for jump sound
     public AudioSource waterSpurt;
-    private WaterFill waterFill;
+    private List<WaterFill> waterFills = new List<WaterFill>(); // List to store references to WaterFill components
 
     public float runSpeed = 40f;
 
@@ -18,8 +18,6 @@ public class PlayerMovement : MonoBehaviour {
     // Moves logic
     private bool isShooting = false;
     bool isFillingWater = false;
-    
-    public bool inRange = false;
 
     private Animator animator; // Reference to the Animator component
 
@@ -31,10 +29,16 @@ public class PlayerMovement : MonoBehaviour {
         // Get the AudioSource component attached to the same GameObject
         jumpSound = GetComponent<AudioSource>();
 
-        waterFill = FindObjectOfType<WaterFill>(); 
-        if (waterFill == null)
+        // Find all instances of WaterFill in the scene and store them in the list
+        WaterFill[] foundWaterFills = FindObjectsOfType<WaterFill>();
+        foreach (WaterFill foundWaterFill in foundWaterFills)
         {
-            Debug.LogError("PlayerMovement component not found in the scene!");
+            waterFills.Add(foundWaterFill);
+        }
+
+        if (waterFills.Count == 0)
+        {
+            Debug.LogError("No WaterFill components found in the scene!");
         }
     }
 
@@ -64,20 +68,21 @@ public class PlayerMovement : MonoBehaviour {
         // Handle shooting input
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(canUseWater == true) 
+            if (canUseWater == true) 
             {
-                if(inRange == true)
+                isShooting = true;
+                animator.SetBool("ShootingWater", true);
+                horizontalMove = 0f; // Stop horizontal movement while shooting
+                Debug.Log("shooting water");
+                foreach (WaterFill waterFill in waterFills)
                 {
-                    isShooting = true;
-                    animator.SetBool("ShootingWater", true);
-                    horizontalMove = 0f; // Stop horizontal movement while shooting
-                    Debug.Log("shooting water");
-                    waterFill.FillUp();
-                    isFillingWater = true;
-                    waterSpurt.Play(); 
+                    waterFill.FillUp(); // Call FillUp method on each WaterFill instance
                 }
+                isFillingWater = true;
+                waterSpurt.Play(); 
             }
-            else{
+            else
+            {
                 isShooting = true;
                 animator.SetBool("Shooting", true);
                 horizontalMove = 0f; // Stop horizontal movement while shooting   
@@ -95,7 +100,10 @@ public class PlayerMovement : MonoBehaviour {
 
         if (isFillingWater)
         {
-            waterFill.FillUp();
+            foreach (WaterFill waterFill in waterFills)
+            {
+                waterFill.FillUp(); // Call FillUp method on each WaterFill instance
+            }
         }
     }
     
@@ -130,15 +138,6 @@ public class PlayerMovement : MonoBehaviour {
     public void WaterAvailable()
     {
         canUseWater = true;
-        Debug.Log("Water avaialble");
-    }
-
-     public void IsInRange()
-    {
-        inRange = true;
-    }
-    public void OutRange()
-    {
-        inRange = false;
+        Debug.Log("Water available");
     }
 }

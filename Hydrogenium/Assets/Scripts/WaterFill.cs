@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class WaterFill : MonoBehaviour
 {
-    public float originalHeight = 5f; // assuming the original height of the cube is 5
+    public float originalHeight = 0f;
     public float maxHeight = 11.8f;
     public float fillSpeed = 0.1f;
     public float shrinkSpeed = 0.1f;
 
     private bool isFilling = true;
-
 
     void Update()
     {
