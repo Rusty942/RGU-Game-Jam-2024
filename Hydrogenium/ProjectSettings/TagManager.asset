@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Entry
+  - Tutorial
+  - Item
   layers:
   - Default
   - TransparentFX

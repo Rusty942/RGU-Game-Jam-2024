@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class LoadLevelOnClick : MonoBehaviour, IPointerClickHandler
+public class LevelLoader: MonoBehaviour, IPointerClickHandler
 {
     public string levelName; // Name of the scene to load
 

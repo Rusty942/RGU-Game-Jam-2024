@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
-	public CharacterController2D controller;
+    public CharacterController2D controller;
+    public AudioSource jumpSound; // Reference to the AudioSource component for jump sound
 
-	public float runSpeed = 40f;
+    public float runSpeed = 40f;
 
-	float horizontalMove = 0f;
-	bool jump = false;
-    
-    
-    //Moves logic
+    float horizontalMove = 0f;
+    bool jump = false;
+
+    // Moves logic
     private bool isShooting = false;
 
     private Animator animator; // Reference to the Animator component
@@ -21,9 +21,12 @@ public class PlayerMovement : MonoBehaviour {
     {
         // Get the Animator component attached to the same GameObject
         animator = GetComponent<Animator>();
+
+        // Get the AudioSource component attached to the same GameObject
+        jumpSound = GetComponent<AudioSource>();
     }
-	
-	void Update()
+
+    void Update()
     {
         // Update the walking animation
         UpdateWalkingAnimation(horizontalMove);
@@ -38,7 +41,12 @@ public class PlayerMovement : MonoBehaviour {
             if (Input.GetButtonDown("Jump"))
             {
                 jump = true;
+                animator.SetBool("Jumping", true);
+                // Play jump sound
+                jumpSound.Play();
             }
+
+            animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
         }
 
         // Handle shooting input
@@ -53,14 +61,19 @@ public class PlayerMovement : MonoBehaviour {
             isShooting = false;
             animator.SetBool("Shooting", false);
         }
-}
+    }
 
-	void FixedUpdate ()
-	{
-		// Move our character
-		controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
+    public void OnLanding()
+    {
+        animator.SetBool("Jumping", false);
+    }
+
+    void FixedUpdate ()
+    {
+        // Move our character
+        controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
         jump = false;
-	}
+    }
 
     private void UpdateWalkingAnimation(float horizontalInput)
     {

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: dafd2367ca0327944a5689df1f450462
+guid: d652d35517dedb949916f9a0001d21cd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1426423539268426809
-    second: Oxygen Can_0
+      213: -7494692400043721993
+    second: Lab BG_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Oxygen Can_0
+      name: Lab BG_0
       rect:
         serializedVersion: 2
-        x: 5
+        x: 0
         y: 0
-        width: 22
-        height: 31
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,8 +127,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7c366aa3953543ce0800000000000000
-      internalID: -1426423539268426809
+      spriteID: 7faf29288f08df790800000000000000
+      internalID: -7494692400043721993
       vertices: []
       indices: 
       edges: []
@@ -144,7 +144,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Oxygen Can_0: -1426423539268426809
+      Lab BG_0: -7494692400043721993
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
