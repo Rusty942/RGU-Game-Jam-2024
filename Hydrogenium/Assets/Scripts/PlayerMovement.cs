@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour {
 
     float horizontalMove = 0f;
     bool jump = false;
+    bool canUseWater = false;
 
     // Moves logic
     private bool isShooting = false;
@@ -52,9 +53,18 @@ public class PlayerMovement : MonoBehaviour {
         // Handle shooting input
         if (Input.GetKeyDown(KeyCode.E))
         {
-            isShooting = true;
-            animator.SetBool("Shooting", true);
-            horizontalMove = 0f; // Stop horizontal movement while shooting
+            if(canUseWater == true) 
+            {
+                isShooting = true;
+                animator.SetBool("Shooting", true);
+                horizontalMove = 0f; // Stop horizontal movement while shooting
+                Debug.Log("shooting water");
+            }
+            else{
+                isShooting = true;
+                animator.SetBool("Shooting", true);
+                horizontalMove = 0f; // Stop horizontal movement while shooting   
+            }
         }
         else if (Input.GetKeyUp(KeyCode.E))
         {
@@ -87,5 +97,11 @@ public class PlayerMovement : MonoBehaviour {
         {
             animator.SetBool("Walking", false);
         }
+    }
+
+    public void WaterAvailable()
+    {
+        canUseWater = true;
+        Debug.Log("Water avaialble");
     }
 }
