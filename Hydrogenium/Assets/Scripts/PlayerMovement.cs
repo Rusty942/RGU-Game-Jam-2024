@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour {
     public AudioSource jumpSound; // Reference to the AudioSource component for jump sound
     public AudioSource waterSpurt;
     private List<WaterFill> waterFills = new List<WaterFill>(); // List to store references to WaterFill components
+    private ParticleSystem particleObject; // Adjusted to private
 
     public float runSpeed = 40f;
 
@@ -40,6 +41,10 @@ public class PlayerMovement : MonoBehaviour {
         {
             Debug.LogError("No WaterFill components found in the scene!");
         }
+
+        // Find the ParticleSystem component on the child object
+        particleObject = GetComponentInChildren<ParticleSystem>();
+        particleObject.Stop();
     }
 
     void Update()
@@ -68,7 +73,7 @@ public class PlayerMovement : MonoBehaviour {
         // Handle shooting input
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (canUseWater == true) 
+            if (canUseWater) 
             {
                 isShooting = true;
                 animator.SetBool("ShootingWater", true);
@@ -80,13 +85,15 @@ public class PlayerMovement : MonoBehaviour {
                 }
                 isFillingWater = true;
                 waterSpurt.Play(); 
+                particleObject.Play();
             }
             else
             {
                 isShooting = true;
                 animator.SetBool("Shooting", true);
                 horizontalMove = 0f; // Stop horizontal movement while shooting   
-                isFillingWater = false;          
+                isFillingWater = false; 
+                particleObject.Stop();         
             }
         }
         else if (Input.GetKeyUp(KeyCode.E))
@@ -96,6 +103,7 @@ public class PlayerMovement : MonoBehaviour {
             animator.SetBool("ShootingWater", false);
             isFillingWater = false; 
             waterSpurt.Stop();
+            particleObject.Stop(); 
         }
 
         if (isFillingWater)
