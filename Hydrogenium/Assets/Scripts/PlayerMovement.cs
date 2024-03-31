@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour {
             if(canUseWater == true) 
             {
                 isShooting = true;
-                animator.SetBool("Shooting", true);
+                animator.SetBool("ShootingWater", true);
                 horizontalMove = 0f; // Stop horizontal movement while shooting
                 Debug.Log("shooting water");
                 waterFill.FillUp();
@@ -83,6 +83,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             isShooting = false;
             animator.SetBool("Shooting", false);
+            animator.SetBool("ShootingWater", false);
             isFillingWater = false; 
             waterSpurt.Stop();
         }
