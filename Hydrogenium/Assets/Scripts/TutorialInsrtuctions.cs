@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
-public class TextFadeInOut : MonoBehaviour
+public class TutorialInsrtuctions : MonoBehaviour
 {
     public TextMeshProUGUI textMeshPro;
     private float fadeInTime = 2f;

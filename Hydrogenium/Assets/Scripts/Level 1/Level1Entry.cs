@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BoxInteraction : MonoBehaviour
+public class Level1Entry : MonoBehaviour
 {
     private bool playerInRange = false;
 
