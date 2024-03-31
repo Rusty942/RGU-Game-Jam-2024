@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public CharacterController2D controller;
     public AudioSource jumpSound; // Reference to the AudioSource component for jump sound
+    private WaterFill waterFill;
 
     public float runSpeed = 40f;
 
@@ -15,6 +16,7 @@ public class PlayerMovement : MonoBehaviour {
 
     // Moves logic
     private bool isShooting = false;
+    bool isFillingWater = false;
 
     private Animator animator; // Reference to the Animator component
 
@@ -25,6 +27,12 @@ public class PlayerMovement : MonoBehaviour {
 
         // Get the AudioSource component attached to the same GameObject
         jumpSound = GetComponent<AudioSource>();
+
+        waterFill = FindObjectOfType<WaterFill>(); 
+        if (waterFill == null)
+        {
+            Debug.LogError("PlayerMovement component not found in the scene!");
+        }
     }
 
     void Update()
@@ -59,19 +67,29 @@ public class PlayerMovement : MonoBehaviour {
                 animator.SetBool("Shooting", true);
                 horizontalMove = 0f; // Stop horizontal movement while shooting
                 Debug.Log("shooting water");
+                waterFill.FillUp();
+                isFillingWater = true;
             }
             else{
                 isShooting = true;
                 animator.SetBool("Shooting", true);
                 horizontalMove = 0f; // Stop horizontal movement while shooting   
+                isFillingWater = false;           
             }
         }
         else if (Input.GetKeyUp(KeyCode.E))
         {
             isShooting = false;
             animator.SetBool("Shooting", false);
+            isFillingWater = false; 
+        }
+
+        if (isFillingWater)
+        {
+            waterFill.FillUp();
         }
     }
+    
 
     public void OnLanding()
     {
@@ -84,6 +102,7 @@ public class PlayerMovement : MonoBehaviour {
         controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
         jump = false;
     }
+    
 
     private void UpdateWalkingAnimation(float horizontalInput)
     {
