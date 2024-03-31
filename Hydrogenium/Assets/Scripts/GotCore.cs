@@ -1,18 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GotCore : MonoBehaviour
+public class GotCore: MonoBehaviour
 {
-    // Start is called before the first frame update
+    private PlayerMovement playerMovement; // Reference to the PlayerMovement script
+    private Vector3 startPosition;
+
     void Start()
     {
-        
+        startPosition = transform.position;
+        playerMovement = FindObjectOfType<PlayerMovement>(); // Search for PlayerMovement in the scene
+        if (playerMovement == null)
+        {
+            Debug.LogError("PlayerMovement component not found in the scene!");
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            // Send debug message
+            Debug.Log("Power core Item collided with Player!");
+
+            // Make the oxygen item disappear
+            gameObject.SetActive(false);
+
+            // Call the WaterAvailable method of the PlayerMovement script if it's not null
+            if (playerMovement != null)
+            {
+                playerMovement.WinAvailable();
+            }
+        }
     }
 }
