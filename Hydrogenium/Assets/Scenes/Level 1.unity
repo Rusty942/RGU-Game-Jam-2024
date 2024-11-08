@@ -73546,7 +73546,7 @@ MonoBehaviour:
   originalHeight: 0
   maxHeight: 22
   fillSpeed: 20
-  shrinkSpeed: 5
+  shrinkSpeed: 2
 --- !u!61 &1244416027
 BoxCollider2D:
   m_ObjectHideFlags: 0
