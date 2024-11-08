@@ -143,7 +143,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ruined City Background Preview_0: -8701014443705554329
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
